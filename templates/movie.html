@@ -1,0 +1,91 @@
+{% extends 'base.html' %} {% block body %} {% import 'macros.html' as macros %}
+<div class="container mt-5">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+
+        <div class="col px-5">
+            <div class="card shadow-sm">
+                <img src="{{ movie.loc[0, 'poster_url'] }}" alt="no_picture.png" class="card-img-top"/>
+            </div>
+        </div>
+
+        <div class="col">
+            <h2 class="mb-3">{{ movie.loc[0, 'title'] }}</h2>
+            <p class="mb-5 card-text fst-italic">{{ movie.loc[0, 'description'] }}.</p>
+            <h4 class="mb-0">О фильме</h4>
+            <hr>
+            <div class="d-flex justify-content-between">
+                <div class="mb-1">Год выпуска</div>
+                <div class="mb-1">{{ movie.loc[0, 'year'] }}</div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="mb-1">Страна</div>
+                <div class="mb-1">{{ movie.loc[0, 'country'] }}</div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="mb-1">Жанр</div>
+                <div class="mb-1">{{ movie.loc[0, 'genres'].replace(',', ', ') }}</div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="mb-1">Режиссер</div>
+                <div class="hoverable">
+                    <div class="mb-1">{{ movie.loc[0, 'director_name'] }}</div>
+                    <img class="hide" style="width: 150px;" src="{{ movie.loc[0, 'photo_url'] }}"/>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="mb-1">Продолжительность</div>
+                <div class="mb-1">{{ movie.loc[0, 'duration'] }} мин</div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="mb-1">Рейтинг</div>
+                {% if movie.loc[0, 'rating'] == None %}
+                <div class="mb-5">Нет оценок</div>
+                {% else %}
+                <div class="mb-5">{{ round(movie.loc[0, 'rating'], 1) }}</div>
+                {% endif %}
+            </div>
+            <div class="d-flex justify-content-end">
+                {{ macros.mark_button(current_user, movie.loc[0, 'movie_id'], mark) }}
+                {{ macros.watch_later_button(movie.loc[0, 'movie_id'], watch_later, current_user) }}
+            </div>
+        </div>
+
+        <div class="col ps-5">
+            <h4 class="mb-3">В главных ролях</h4>
+            {% for i in range(len(actors)) %}
+            <div class="hoverable">
+                <div class="mb-1">{{ actors.loc[i, 'actor_name'] }}</div>
+                <img class="hide" style="width: 150px;" src="{{ actors.loc[i, 'photo_url'] }}"/>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="conteiner px-4 mt-5">
+        <h2>Комментарии пользователей</h2>
+        <hr>
+        {% if comments.empty %}
+        <p class="d-flex justify-content-center">Оставьте комментарий первым!</p>
+        {% else %}
+        {% for i in range(len(comments)) %}
+        <div class="card mt-2 px-5">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h4>{{ comments.loc[i, 'username'] }}</h4>
+                    <h4>{{ comments.loc[i, 'post_date'] }}</h4>
+                </div>
+                <hr/>
+                <p class="fs-5 px-2">{{ comments.loc[i, 'text'] }}</p>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <form action="{{ url_for('movie.comment', movie_id=movie.loc[0, 'movie_id']) }}" method="POST" class="mt-2">
+            <div class="form-group mt-2 d-flex justify-content-between mb-5">
+                <input class="form-control" type="text" name="text"/>
+                <button type="submit" class="btn btn-primary ms-2">Отправить</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

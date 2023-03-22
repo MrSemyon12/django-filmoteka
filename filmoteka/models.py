@@ -6,14 +6,23 @@ class Director(models.Model):
     name = models.CharField(max_length=45)
     photo_url = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Actor(models.Model):
     name = models.CharField(max_length=45)
     photo_url = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Genre(models.Model):
     name = models.CharField(max_length=45, primary_key=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Movie(models.Model):
@@ -27,6 +36,9 @@ class Movie(models.Model):
     director = models.ForeignKey(Director, on_delete=models.CASCADE)
     actors = models.ManyToManyField(Actor)
     genres = models.ManyToManyField(Genre)
+
+    def __str__(self):
+        return self.title
 
 
 class Comment(models.Model):
