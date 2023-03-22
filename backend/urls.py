@@ -16,9 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from filmoteka.views import home
+from filmoteka.views.movie import movie_info
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home)
+    path('filmoteka/movie/<int:movie_id>', movie_info)
 ]
