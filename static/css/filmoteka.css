@@ -1,0 +1,17 @@
+.hover-able {
+    cursor: default;
+}
+
+.hide {
+    display: none;
+    border-radius: 5%;
+}
+
+.hover-able:hover {
+    color: #0d6efd;
+}
+
+.hover-able:hover .hide {
+    display: block;
+    position: absolute;
+}

@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path
 
 from filmoteka.views.movie import movie_info
+from filmoteka.views.home import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('filmoteka/movie/<int:movie_id>', movie_info)
+    path('filmoteka/movie/<int:movie_id>', movie_info, name='movie'),
+    path('filmoteka/', index, name='index'),
 ]
