@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 class Director(models.Model):
@@ -44,18 +45,17 @@ class Movie(models.Model):
 class Comment(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post_date = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
+    date = models.DateTimeField()
 
 
 class Mark(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post_date = models.DateTimeField(auto_now_add=True)
     value = models.SmallIntegerField()
 
 
 class Favourite(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    post_date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField()

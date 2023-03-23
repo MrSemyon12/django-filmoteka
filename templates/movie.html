@@ -1,60 +1,60 @@
 {% extends 'base.html' %} {% block body %}
-<div class="container mt-5">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+    <div class="container mt-5">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
 
-        <div class="col px-5">
-            <div class="card shadow-sm">
-                <img src="{{ movie.poster_url }}" alt="no_picture.png" class="card-img-top"/>
-            </div>
-        </div>
-
-        <div class="col">
-            <h2 class="mb-3">{{ movie.title }}</h2>
-            <p class="mb-5 card-text fst-italic">{{ movie.description }}.</p>
-            <h4 class="mb-0">О фильме</h4>
-            <hr>
-            <div class="d-flex justify-content-between">
-                <div class="mb-1">Год выпуска</div>
-                <div class="mb-1">{{ movie.year }}</div>
-            </div>
-            <div class="d-flex justify-content-between">
-                <div class="mb-1">Страна</div>
-                <div class="mb-1">{{ movie.country }}</div>
-            </div>
-            <div class="d-flex justify-content-between">
-                <div class="mb-1">Жанр</div>
-                <div class="mb-1">{{ movie.genres }}</div>
-            </div>
-            <div class="d-flex justify-content-between">
-                <div class="mb-1">Режиссер</div>
-                <div class="hover-able">
-                    <div class="mb-1">{{ movie.director }}</div>
-                    <img class="hide" style="width: 150px;" src="{{ movie.photo_url }}"/>
+            <div class="col px-5">
+                <div class="card shadow-sm">
+                    <img src="{{ movie.poster_url }}" alt="no_picture.png" class="card-img-top"/>
                 </div>
             </div>
-            <div class="d-flex justify-content-between">
-                <div class="mb-1">Продолжительность</div>
-                <div class="mb-1">{{ movie.duration }} мин</div>
-            </div>
-            <div class="d-flex justify-content-between">
-                <div class="mb-1">Рейтинг</div>
-                {% if movie.rating == None %}
-                <div class="mb-5">Нет оценок</div>
-                {% else %}
-                <div class="mb-5">{{ movie.rating }}</div>
-                {% endif %}
-            </div>
-        </div>
 
-        <div class="col ps-5">
-            <h4 class="mb-3">В главных ролях</h4>
-            {% for actor in actors %}
-            <div class="hover-able">
-                <div class="mb-1">{{ actor.name }}</div>
-                <img class="hide" style="width: 150px;" src="{{ actor.photo_url }}"/>
+            <div class="col">
+                <h2 class="mb-3">{{ movie.title }}</h2>
+                <p class="mb-5 card-text fst-italic">{{ movie.description }}.</p>
+                <h4 class="mb-0">О фильме</h4>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <div class="mb-1">Год выпуска</div>
+                    <div class="mb-1">{{ movie.year }}</div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="mb-1">Страна</div>
+                    <div class="mb-1">{{ movie.country }}</div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="mb-1">Жанр</div>
+                    <div class="mb-1">{{ movie.genres }}</div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="mb-1">Режиссер</div>
+                    <div class="hover-able">
+                        <div class="mb-1">{{ movie.director }}</div>
+                        <img class="hide" style="width: 150px;" src="{{ movie.photo_url }}"/>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="mb-1">Продолжительность</div>
+                    <div class="mb-1">{{ movie.duration }} мин</div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="mb-1">Рейтинг</div>
+                    {% if movie.rating == None %}
+                        <div class="mb-5">Нет оценок</div>
+                    {% else %}
+                        <div class="mb-5">{{ movie.rating }}</div>
+                    {% endif %}
+                </div>
             </div>
-            {% endfor %}
+
+            <div class="col ps-5">
+                <h4 class="mb-3">В главных ролях</h4>
+                {% for actor in actors %}
+                    <div class="hover-able">
+                        <div class="mb-1">{{ actor.name }}</div>
+                        <img class="hide" style="width: 150px;" src="{{ actor.photo_url }}"/>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

@@ -27,10 +27,10 @@
         </a>
         <div class="d-flex align-items-center">
             {% if user.is_authenticated %}
-            <span class="me-3 fw-semibold fs-4 pb-2">{{ user.username }}</span>
-            <a class="btn btn-outline-danger" href="">Выйти</a>
+                <span class="me-3 fw-semibold fs-4 pb-2">{{ user.username }}</span>
+                <a class="btn btn-outline-danger" href="">Выйти</a>
             {% else %}
-            <a class="btn btn-outline-success" href="">Войти</a>
+                <a class="btn btn-outline-success" href="">Войти</a>
             {% endif %}
         </div>
     </div>

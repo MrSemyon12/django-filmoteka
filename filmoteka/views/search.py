@@ -1,5 +1,5 @@
 from django.shortcuts import render
 
 
-def index(request):
+def search(request):
     pass
