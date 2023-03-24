@@ -56,5 +56,35 @@
                 {% endfor %}
             </div>
         </div>
+
+        <div class="conteiner px-4 mt-5">
+            <h2>Комментарии пользователей</h2>
+            <hr>
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="card mt-2 px-5">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h4>{{ comment.username }}</h4>
+                                <h4>{{ comment.date }}</h4>
+                            </div>
+                            <hr/>
+                            <p class="fs-5 px-2">{{ comment.text }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="d-flex justify-content-center">Оставьте комментарий первым!</p>
+            {% endif %}
+
+            <form action="{% url 'add_comment' movie.id %}" method="POST" class="mt-2">
+                {% csrf_token %}
+                <div class="form-group mt-2 d-flex justify-content-between mb-5">
+                    <input class="form-control" type="text" name="text"/>
+                    <button type="submit" class="btn btn-primary ms-2">Отправить</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 {% endblock %}

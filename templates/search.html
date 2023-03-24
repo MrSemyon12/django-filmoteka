@@ -1,12 +1,85 @@
-{% extends 'base.html' %} {% block body %} {% import 'macros.html' as macros %}
-<div class="container mt-5">
-    {{ macros.smart_string(prev_pat) }}
-</div>
-<div class="album py-5 bg-light">
-    <div class="container">
-        <h1>По вашему запросу надено {{ len(found) }} совпадений</h1>
-        <hr/>
-        {{ macros.render_album(found, watch_later, user, round, len) }}
+{% extends 'base.html' %} {% block body %}
+    {% load static %}
+    <div class="container mt-5">
+        <form class="d-flex" action="{% url 'search' %}" method="POST">
+            {% csrf_token %}
+            <input class="form-control me-2 fs-5 ps-4" type="search"
+                   placeholder="Поиск по названию, жанру, актёру, режиссёру, стране и году" aria-label="Search"
+                   name="pattern"
+                   value="{{ prev_pat }}">
+            <button class="btn btn-outline-secondary">
+                <img src="{% static 'images/search.png' %}" alt="no_picture.png" width="20"
+                     height="20"
+                     class="mb-1"/>
+                Искать
+            </button>
+        </form>
     </div>
-</div>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <h1>По вашему запросу надено {{ movies|length }} совпадений</h1>
+            <hr/>
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
+                {% for movie in movies %}
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <a href="{% url 'movie' movie.id %}">
+                                <img src="{{ movie.poster_url }}" alt="no_picture.png" class="card-img-top"/>
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-text">
+                                    {{ movie.title }}, {{ movie.year }}
+                                </h5>
+                                <p class="card-text">{{ movie.genres }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    {% if user.is_authenticated %}
+                                        {% if favourites %}
+                                            {% if movie.id in favourites %}
+                                                <form action="{% url 'remove_favourite' movie.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                                        <img src="{% static 'images/tick.png' %}" width="15" height="15"
+                                                             class="mb-1"/>
+                                                        <span>Добавлено</span>
+                                                    </button>
+                                                </form>
+                                            {% else %}
+                                                <form action="{% url 'add_favourite' movie.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-sm btn-outline-success">
+                                                        <img src="{% static 'images/plus.png' %}" width="15" height="15"
+                                                             class="mb-1"/>
+                                                        <span>Буду смотреть</span>
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                        {% else %}
+                                            <form action="{% url 'add_favourite' movie.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-outline-success">
+                                                    <img src="{% static 'images/plus.png' %}" width="15" height="15"
+                                                         class="mb-1"/>
+                                                    <span>Буду смотреть</span>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    {% else %}
+                                        <form action="{% url 'add_favourite' movie.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                                <img src="{% static 'images/plus.png' %}" width="15" height="15"
+                                                     class="mb-1"/>
+                                                <span>Буду смотреть</span>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                    <span>{{ movie.rating }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

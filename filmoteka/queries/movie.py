@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import connection
 
 
@@ -27,7 +28,7 @@ def get_movie_actors(movie_id: int):
             FROM
                 filmoteka_movie
                 JOIN filmoteka_movie_actors ON filmoteka_movie_actors.movie_id = filmoteka_movie.id
-                JOIN filmoteka_actor ON filmoteka_movie_actors.actor_id = filmoteka_actor.id 
+                JOIN filmoteka_actor ON filmoteka_movie_actors.actor_id = filmoteka_actor.id
             WHERE movie_id == %s
         ''', [movie_id])
         data = cursor.fetchall()
@@ -40,11 +41,22 @@ def get_movie_actors(movie_id: int):
 def get_comments(movie_id: int):
     with connection.cursor() as cursor:
         cursor.execute("""
-
+            SELECT username, text, date
+            FROM
+                filmoteka_comment
+                JOIN auth_user ON auth_user.id = filmoteka_comment.user_id
+            WHERE filmoteka_comment.movie_id = %s
         """, [movie_id])
         data = cursor.fetchall()
 
-    keys = ['id', 'title', 'year', 'poster_url', 'director', 'photo_url', 'genres', 'rating', 'country', 'description',
-            'duration']
+    keys = ['username', 'text', 'date']
 
-    return {k: v for k, v in zip(keys, data[0])}
+    return [{k: v for k, v in zip(keys, comment)} for comment in data]
+
+
+def add_new_comment(comment: tuple):
+    with connection.cursor() as cursor:
+        cursor.execute('''
+            INSERT INTO filmoteka_comment (movie_id, user_id, text, date) VALUES (%s, %s, %s, %s)
+        ''', [*comment, datetime.now()])
+        connection.commit()

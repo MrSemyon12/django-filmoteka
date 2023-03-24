@@ -1,5 +1,4 @@
-import datetime
-
+from datetime import datetime
 from django.db import connection
 
 
@@ -23,7 +22,7 @@ def add_to_favourite(user_id: int, movie_id: int):
     with connection.cursor() as cursor:
         cursor.execute('''
             INSERT INTO filmoteka_favourite (user_id, movie_id, date) VALUES (%s, %s, %s)
-        ''', [user_id, movie_id, datetime.datetime.now()])
+        ''', [user_id, movie_id, datetime.now()])
         connection.commit()
 
 
