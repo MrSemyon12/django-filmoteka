@@ -54,6 +54,57 @@ def get_comments(movie_id: int):
     return [{k: v for k, v in zip(keys, comment)} for comment in data]
 
 
+def get_mark(movie_id: int, user_id: int):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT value
+            FROM
+                filmoteka_mark
+            WHERE movie_id = %s AND user_id = %s
+        """, [movie_id, user_id])
+        data = cursor.fetchall()
+
+    return data[0][0] if data else []
+
+
+def add_new_mark(mark: tuple):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            INSERT INTO filmoteka_mark (movie_id, user_id, value) VALUES (%s, %s, %s)
+        """, [*mark])
+        connection.commit()
+
+
+def update_old_mark(mark: tuple):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            UPDATE filmoteka_mark
+            SET
+                value = %s
+            WHERE movie_id = %s AND user_id == %s
+        """, [*mark])
+        connection.commit()
+
+
+def remove_old_mark(movie_id: int, user_id: int):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            DELETE FROM filmoteka_mark WHERE movie_id = %s AND user_id = %s
+        """, [movie_id, user_id])
+        connection.commit()
+
+
+def update_rating(movie_id: int):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            UPDATE filmoteka_movie
+            SET
+                rating = (SELECT AVG(value) FROM filmoteka_mark WHERE movie_id = %s)
+            WHERE id = %s
+        """, [movie_id, movie_id])
+        connection.commit()
+
+
 def add_new_comment(comment: tuple):
     with connection.cursor() as cursor:
         cursor.execute('''

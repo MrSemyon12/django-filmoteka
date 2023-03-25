@@ -17,13 +17,16 @@ from django.contrib import admin
 from django.urls import path
 
 from filmoteka.views.favourite import add_favourite, remove_favourite
-from filmoteka.views.movie import movie, add_comment
+from filmoteka.views.movie import movie, add_comment, add_mark, update_mark, remove_mark
 from filmoteka.views.index import index, search
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('filmoteka/movie/<int:movie_id>', movie, name='movie'),
     path('filmoteka/movie/<int:movie_id>/comment', add_comment, name='add_comment'),
+    path('filmoteka/movie/<int:movie_id>/mark/add/<int:mark>', add_mark, name='add_mark'),
+    path('filmoteka/movie/<int:movie_id>/mark/update/<int:mark>', update_mark, name='update_mark'),
+    path('filmoteka/movie/<int:movie_id>/mark/remove', remove_mark, name='remove_mark'),
     path('filmoteka/', index, name='index'),
     path('filmoteka/search/', search, name='search'),
     path('filmoteka/favourite/add/<int:movie_id>', add_favourite, name='add_favourite'),

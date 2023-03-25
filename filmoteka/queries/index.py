@@ -2,7 +2,7 @@ from django.db import connection
 
 
 def get_top_last_movies():
-    '''Фильмы с самым высоким рейтингом, сортировка по году.'''
+    '''Фильмы с самым высоким рейтингом.'''
     with connection.cursor() as cursor:
         cursor.execute('''
             SELECT filmoteka_movie.id, title, year, poster_url, rating, group_concat(DISTINCT filmoteka_movie_genres.genre_id) AS genres
@@ -10,7 +10,7 @@ def get_top_last_movies():
                 filmoteka_movie
                 JOIN filmoteka_movie_genres ON filmoteka_movie_genres.movie_id = filmoteka_movie.id
             GROUP BY filmoteka_movie.id
-            ORDER BY year DESC, rating DESC
+            ORDER BY rating DESC
             LIMIT 6
         ''')
         data = cursor.fetchall()
