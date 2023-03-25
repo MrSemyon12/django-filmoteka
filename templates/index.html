@@ -2,7 +2,7 @@
 {% block body %}
     {% load static %}
     <div class="container mt-5">
-        <form class="d-flex" action="{% url 'search' %}" method="POST">
+        <form class="d-flex" action="{% url 'search' %}" method="GET">
             {% csrf_token %}
             <input class="form-control me-2 fs-5 ps-4" type="search"
                    placeholder="Поиск по названию, жанру, актёру, режиссёру, стране и году" aria-label="Search"

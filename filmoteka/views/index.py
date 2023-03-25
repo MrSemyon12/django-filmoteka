@@ -14,7 +14,7 @@ def index(request):
 
 
 def search(request):
-    pattern = request.POST['pattern'].strip()
+    pattern = request.GET['pattern'].strip()
 
     return render(request, 'search.html', {
         'movies': get_pattern_movies(f'%{pattern}%'),
