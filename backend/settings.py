@@ -96,6 +96,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL = '/filmoteka'
+LOGOUT_REDIRECT_URL = '/filmoteka'
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 

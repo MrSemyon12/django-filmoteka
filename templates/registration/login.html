@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col">
+                <h1>Авторизация</h1>
+                <hr/>
+
+                <form action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form }}
+                    <div class="form-group mt-4 d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary">Войти</button>
+                        <a class="btn btn-outline-success" href="">Регистрация</a>
+                    </div>
+                </form>
+                {% if form.error %}
+                    <p>{{ form.errors.error }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

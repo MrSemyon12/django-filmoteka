@@ -14,21 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from filmoteka.views.favourite import favourite, add_favourite, remove_favourite
-from filmoteka.views.movie import movie, add_comment, add_mark, update_mark, remove_mark
-from filmoteka.views.index import index, search
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('filmoteka/movie/<int:movie_id>', movie, name='movie'),
-    path('filmoteka/movie/<int:movie_id>/comment', add_comment, name='add_comment'),
-    path('filmoteka/movie/<int:movie_id>/mark/add/<int:mark>', add_mark, name='add_mark'),
-    path('filmoteka/movie/<int:movie_id>/mark/update/<int:mark>', update_mark, name='update_mark'),
-    path('filmoteka/movie/<int:movie_id>/mark/remove', remove_mark, name='remove_mark'),
-    path('filmoteka/', index, name='index'),
-    path('filmoteka/search/', search, name='search'),
-    path('filmoteka/favourite/', favourite, name='favourite'),
-    path('filmoteka/favourite/add/<int:movie_id>', add_favourite, name='add_favourite'),
-    path('filmoteka/favourite/remove/<int:movie_id>', remove_favourite, name='remove_favourite'),
+    path('filmoteka/', include('filmoteka.urls')),
 ]
