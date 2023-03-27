@@ -18,7 +18,7 @@ def movie(request, movie_id: int):
 
 @login_required
 def add_comment(request, movie_id: int):
-    add_new_comment((movie_id, request.user.id, request.POST['text'].strip()))
+    add_new_comment((movie_id, request.user.id, request.POST.get('text').strip()))
     return redirect(request.META.get('HTTP_REFERER'))
 
 

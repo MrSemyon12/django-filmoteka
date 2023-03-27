@@ -96,6 +96,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = '/filmoteka/login'
 LOGIN_REDIRECT_URL = '/filmoteka'
 LOGOUT_REDIRECT_URL = '/filmoteka'
 
