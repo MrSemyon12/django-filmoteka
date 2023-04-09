@@ -29,7 +29,7 @@ class Movie(models.Model):
     title = models.CharField(max_length=255)
     year = models.SmallIntegerField()
     poster_url = models.CharField(max_length=255)
-    rating = models.DecimalField(max_digits=3, decimal_places=1)
+    rating = models.DecimalField(max_digits=3, decimal_places=1, null=True)
     country = models.CharField(max_length=45)
     description = models.TextField()
     duration = models.SmallIntegerField()
